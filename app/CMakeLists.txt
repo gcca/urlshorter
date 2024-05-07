@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.25)
+project(short VERSION 1.0 LANGUAGES CXX)
+find_package(Python 3.12 COMPONENTS Development.Module REQUIRED)
+add_library(short short.cc)
+target_link_libraries(short Python::Module)

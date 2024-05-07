@@ -1,0 +1,29 @@
+services:
+  app:
+    image: urlshorter
+    container_name: urlshorter
+    ports:
+      - "8000:80"
+    depends_on:
+      - uidgen
+    volumes:
+      - ./app:/app
+  uidgen:
+    image: uidgen
+    container_name: uidgen
+    depends_on:
+      - postgres
+      - keydb
+    environment:
+      - UIDGEN_DATACENTER_ID=0
+      - UIDGEN_MACHINE_ID=1
+  keydb:
+    image: eqalpha/keydb:latest
+    container_name: keydb
+  postgres:
+    image: postgres:16.2-alpine3.19
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/initdb.sql
